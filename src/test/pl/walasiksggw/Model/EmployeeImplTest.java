@@ -1,4 +1,4 @@
-package pl.walasiksggw.cba.Model;
+package pl.walasiksggw.model;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,6 +6,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.walasiksggw.dao.EmployeeDAO;
+import pl.walasiksggw.dao.EmployeeDAOImpl;
+import pl.walasiksggw.service.EmployeeServiceImpl;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ public class EmployeeImplTest {
     public void getListOfEmployeeFromDataBase() throws Exception {
         ApplicationContext context= new ClassPathXmlApplicationContext("context.xml");
         EmployeeDAO employeeDAO = context.getBean("employeeDAOImpl", EmployeeDAOImpl.class);
-        List<EmployeeModel> listOfEmployeeFromDataBase = employeeDAO.getListOfEmployeeFromDataBase();
+        List<Employee> listOfEmployeeFromDataBase = employeeDAO.getListOfEmployeeFromDataBase();
         assertEquals(listOfEmployeeFromDataBase.toString().trim(), employeeDAO.getListOfEmployeeFromDataBase().toString().trim());
     }
 
@@ -25,8 +28,8 @@ public class EmployeeImplTest {
     public void saveToDataBase() throws Exception {
         ApplicationContext context= new ClassPathXmlApplicationContext("context.xml");
         EmployeeDAO employeeDAO = context.getBean("employeeDAOImpl", EmployeeDAOImpl.class);
-        EmployeeModel employeeModel = context.getBean("employeeModel", EmployeeModel.class);
-        EmployeeImpl employeeImpl = context.getBean("employeeImpl", EmployeeImpl.class);
+        Employee employeeModel = context.getBean("employeeModel", Employee.class);
+        EmployeeServiceImpl employeeImpl = context.getBean("employeeImpl", EmployeeServiceImpl.class);
         employeeModel.setName("Jan");
         employeeModel.setSurname("Kowalski");
         employeeModel.setPosition("tester");
@@ -35,7 +38,7 @@ public class EmployeeImplTest {
         employeeModel.setNumberOfHoursPerMonth(125);
         employeeModel.setOvertime(0);
         employeeImpl.saveToDataBase(employeeModel);
-        List<EmployeeModel> listOfEmployeeFromDataBase = employeeDAO.getListOfEmployeeFromDataBase();
+        List<Employee> listOfEmployeeFromDataBase = employeeDAO.getListOfEmployeeFromDataBase();
         assertEquals(employeeModel.toString().trim(),listOfEmployeeFromDataBase.get(listOfEmployeeFromDataBase.size()-1).toString().trim());
     }
 
@@ -43,7 +46,7 @@ public class EmployeeImplTest {
     public void searchEmployeeByName() throws Exception {
         ApplicationContext context= new ClassPathXmlApplicationContext("context.xml");
         EmployeeDAO employeeDAO = context.getBean("employeeDAOImpl", EmployeeDAOImpl.class);
-        EmployeeModel employeeModel = employeeDAO.searchEmployeeByName("Natalia", "Walasik");
+        Employee employeeModel = employeeDAO.searchEmployeeByName("Natalia", "Walasik");
         assertEquals(employeeModel.toString().trim(), employeeDAO.searchEmployeeByName("Natalia", "Walasik").toString().trim());
     }
 

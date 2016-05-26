@@ -1,4 +1,4 @@
-package pl.walasiksggw.cba.DTO;
+package pl.walasiksggw.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

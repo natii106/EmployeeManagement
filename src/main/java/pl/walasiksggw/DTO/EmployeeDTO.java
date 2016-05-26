@@ -1,4 +1,4 @@
-package pl.walasiksggw.cba.DTO;
+package pl.walasiksggw.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

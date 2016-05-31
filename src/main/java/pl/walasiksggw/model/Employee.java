@@ -1,4 +1,4 @@
-package pl.walasiksggw.cba.Model;
+package pl.walasiksggw.model;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity(name = "employee")
 @Table
 @Component
-public class EmployeeModel {
+public class Employee {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private long id;

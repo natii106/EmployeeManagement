@@ -30,18 +30,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Transactional
     public Employee searchEmployeeByName(String searchingName, String searchingSurname) {
 
-        Employee employeeModel;
-        Query query = sessionFactory.getCurrentSession().createQuery("SELECT e from employee AS e where name =:name AND surname =:surname");
-        query.setParameter("name", searchingName);
-        query.setParameter("surname", searchingSurname);
+        Employee employee;
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT e FROM employee e where e.name =:nameParam AND e.surname =:surnameParam");
+        query.setParameter("nameParam",searchingName);
+        query.setParameter("surnameParam", searchingSurname);
         if (!query.list().isEmpty()) {
-            employeeModel = (Employee) query.list().get(0);
-            return employeeModel;
+            employee = (Employee) query.list().get(0);
+            return employee;
         } else {
             return null;
         }
 
 
     }
+
 }
+
+
 

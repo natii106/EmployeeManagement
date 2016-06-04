@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.walasiksggw.dao.EmployeeDAO;
+import pl.walasiksggw.dao.EmployeeDAOImpl;
 import pl.walasiksggw.model.Employee;
 import pl.walasiksggw.service.EmployeeService;
 
@@ -28,5 +29,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee searchEmployeeByName(String name, String surname) {
         return employeeDAO.searchEmployeeByName(name, surname);
     }
+    public static void main(String[] args) {
+        EmployeeDAO emplDAO= new EmployeeDAOImpl();
+        List<Employee> emplList=emplDAO.getListOfEmployeeFromDataBase();
+        System.out.println(emplList.get(0).getName());
+        //    Employee empl= emplDAO.searchEmployeeByName("Natalia", "Walasik");
+        //  System.out.println(empl.getPosition()+ empl.getName());
+    }
+
 }
 

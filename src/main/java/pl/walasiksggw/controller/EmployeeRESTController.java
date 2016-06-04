@@ -25,15 +25,11 @@ public class EmployeeRESTController {
         }
 
         @RequestMapping(value = "/add", method = RequestMethod.POST)
-        public void saveEmployeeToDatabase(@RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
+        public void saveEmployeeToDatabase(@RequestBody Employee employee) {
             employeeService.saveToDataBase(employee);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/add/{id}").buildAndExpand(employee.getId()).toUri());
-
         }
 
-        @RequestMapping(value = "/search/{name}/{surname}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/search/{name}/{surname}", method = RequestMethod.GET)
         public Employee searchEmployee(@PathVariable("name") String name, @PathVariable("surname") String surname) {
             Employee employee = employeeService.searchEmployeeByName(name, surname);
             if (employee == null) {

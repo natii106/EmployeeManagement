@@ -29,13 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee searchEmployeeByName(String name, String surname) {
         return employeeDAO.searchEmployeeByName(name, surname);
     }
-    public static void main(String[] args) {
-        EmployeeDAO emplDAO= new EmployeeDAOImpl();
-        List<Employee> emplList=emplDAO.getListOfEmployeeFromDataBase();
-        System.out.println(emplList.get(0).getName());
-        //    Employee empl= emplDAO.searchEmployeeByName("Natalia", "Walasik");
-        //  System.out.println(empl.getPosition()+ empl.getName());
-    }
+
 
 }
 

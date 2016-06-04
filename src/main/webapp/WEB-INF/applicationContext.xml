@@ -7,18 +7,10 @@
 
     <context:component-scan base-package="pl.walasiksggw"/>
     <context:annotation-config />
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/WEB-INF/Views/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
 
     <tx:annotation-driven proxy-target-class="true"/>
     <mvc:default-servlet-handler/>
-    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>

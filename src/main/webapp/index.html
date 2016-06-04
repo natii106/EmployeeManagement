@@ -1,0 +1,127 @@
+<html lang="pl_PL" ng-app="myApp" xmlns:filter="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="shortcut icon" href="">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="bower/jquery/dist/jquery.min.js">
+    <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: lightgoldenrodyellow;
+        }
+
+
+    </style>
+</head>
+<body>
+<div ng-controller="EmployeeCtrl">
+    <div class="container">
+    <form name="myForm" class="form-horizontal" role="form" data-ng-submit="submitForm()">
+        <input type="hidden" ng-model="employee.id" />
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="name">Imię</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.name" id="name" class="form-control"  required ng-minlength="3"/>
+                    <div class="has-error" ng-show="myForm.$dirty">
+                        <span ng-show="myForm.name.$error.required">This is a required field</span>
+                        <span ng-show="myForm.name.$error.minlength">Minimum length required is 3</span>
+                        <span ng-show="myForm.name.$invalid">This field is invalid </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="surname">Nazwisko</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.surname" id="surname" class="form-control"/>
+                    <div class="has-error" ng-show="myForm.$dirty">
+                        <span ng-show="myForm.surname.$error.required">This is a required field</span>
+                        <span ng-show="myForm.surname.$error.minlength">Minimum length required is 3</span>
+                        <span ng-show="myForm.surname.$invalid">This field is invalid </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="position">Stanowisko</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.position" id="position" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label  for="salary">Pensja</label>
+            <div class="col-md-7">
+                <input type="text" ng-model="employee.salary" id="salary" class="form-control"/>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label  for="salaryPerHour">Zarobki na godzinę</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.salaryPerHour" id="salaryPerHour" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="numberOfHoursPerMonth">Liczba godzin w miesiącu</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.numberOfHoursPerMonth" id="numberOfHoursPerMonth" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label  for="overtime">Nadgodziny</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="employee.overtime" id="overtime" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary"  value="Dodaj">
+    </form>
+    </div>
+    <div class="container">
+<table class="table">
+    <label>Search: <input ng-model="searchText"></label>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Stanowisko</th>
+        <th>Pensja</th>
+        <th>Zarobki na godzinę</th>
+        <th>Ilość godzin w miesiącu</th>
+        <th>Nadgodziny</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="e in employees| filter: searchText ">
+
+            <td>{{e.id}}</td>
+            <td>{{e.name}}</td>
+            <td>{{e.surname}}</td>
+            <td>{{e.position}}</td>
+            <td>{{e.salary}}</td>
+            <td>{{e.salaryPerHour}}</td>
+            <td>{{e.numberOfHoursPerMonth}}</td>
+            <td>{{e.overtime}}</td>
+        </tr>
+    </tbody>
+</table>
+    </div>
+</div>
+<script src="bower/angular/angular.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/js/controller.js"></script>
+<script src="static/js/service.js"></script>
+</body>
+</html>

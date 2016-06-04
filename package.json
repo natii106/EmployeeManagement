@@ -1,0 +1,23 @@
+{
+  "name": "employeemanagement",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.5.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natii106/EmployeeManagement.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natii106/EmployeeManagement/issues"
+  },
+  "homepage": "https://github.com/natii106/EmployeeManagement#readme"
+}

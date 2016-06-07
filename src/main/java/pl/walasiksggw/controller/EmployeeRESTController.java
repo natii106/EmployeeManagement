@@ -10,14 +10,12 @@ import pl.walasiksggw.service.EmployeeService;
 import pl.walasiksggw.model.Employee;
 import java.util.List;
 
-
 @RestController
 @ComponentScan(basePackages = {("pl.walasiksggw.service")})
 public class EmployeeRESTController {
 
     @Autowired
     EmployeeService employeeService;
-
 
         @RequestMapping(value="/list", method= RequestMethod.GET)
         public List<Employee> getListOfEmployee() {

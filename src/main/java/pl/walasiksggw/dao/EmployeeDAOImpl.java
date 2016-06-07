@@ -14,7 +14,7 @@ import pl.walasiksggw.model.Employee;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Autowired
-    private SessionFactory sessionFactory;
+    SessionFactory sessionFactory;
 
     @Transactional
     public List<Employee> getListOfEmployeeFromDataBase() {

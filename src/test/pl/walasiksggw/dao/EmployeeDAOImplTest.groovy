@@ -1,27 +1,26 @@
 package pl.walasiksggw.dao
 
-import org.hibernate.Query
 import org.hibernate.Session
 import org.hibernate.SessionFactory
-
+import org.hibernate.Transaction
 import org.hibernate.cfg.Configuration
 import pl.walasiksggw.model.Employee
 import spock.lang.Specification
 
 
 class EmployeeDAOImplTest extends Specification {
-    SessionFactory sessionFactory = new Configuration().configure("databaseConfigTests.xml").buildSessionFactory();
+    EmployeeDAOImpl employeeDAO=new EmployeeDAOImpl();
+    SessionFactory sessionFactory=new Configuration().configure("databaseConfigTests.xml").buildSessionFactory();
 
     def "Get list of employee from database when we have access to IMDB"() {
-        given: "Database configuration"
-        Session session = sessionFactory.openSession();
+        given:
+        Session session= sessionFactory.getCurrentSession();
+        Transaction trx =session.beginTransaction();
+        employeeDAO.setSessionFactory(sessionFactory);
         when: "Get from database (empty)"
-        Query query = session.createQuery("FROM employee");
-        List<Employee> employeeList=Mock();
-        employeeList = query.list();
+        List<Employee> employeeList= employeeDAO.getListOfEmployeeFromDataBase();
         then: "The database is empty"
         employeeList.size() == 0;
-
         when: "Employee creating"
         Employee employeeTest = new Employee();
         employeeTest.setName("Jan");
@@ -31,19 +30,19 @@ class EmployeeDAOImplTest extends Specification {
         employeeTest.setSalaryPerHour(40);
         employeeTest.setNumberOfHoursPerMonth(80);
         employeeTest.setOvertime(10);
-        session.save(employeeTest);
-        session.beginTransaction().commit();
-        employeeList = query.list();
-        session.close();
+        employeeDAO.saveToDataBase(employeeTest);
+        employeeList= employeeDAO.getListOfEmployeeFromDataBase();
+        trx.commit();
         then: "Database should contains added employee"
         employeeList.size() == 1
 
     }
 
     def "Save employee to database"() {
-        given: "Database configuration"
-        Session session = sessionFactory.openSession();
-
+        given:
+        Session session= sessionFactory.getCurrentSession();
+        Transaction trx =session.beginTransaction();
+        employeeDAO.setSessionFactory(sessionFactory);
         when: "Employee creating"
         Employee employeeTest= new Employee();
         employeeTest.setName("Jan");
@@ -53,26 +52,22 @@ class EmployeeDAOImplTest extends Specification {
         employeeTest.setSalaryPerHour(40);
         employeeTest.setNumberOfHoursPerMonth(80);
         employeeTest.setOvertime(10);
-        session.save(employeeTest);
-        session.beginTransaction().commit();
-
-        Query query = session.createQuery("FROM employee");
-        List<Employee> employeeList=Mock();
-        employeeList = query.list();
-        int id = query.list().get(0).getId();
-        session.close();
+        employeeDAO.saveToDataBase(employeeTest);
+        List<Employee> employeeList=employeeDAO.getListOfEmployeeFromDataBase();
+        int id = employeeList.get(0).getId();
+        trx.commit();
         then: "Database should contains added employee"
         employeeList.size() == 1
-
         then: "Employee's auto-generated Id should be 1"
         id == 1;
 
     }
 
     def "SearchEmployeeByName"() {
-        given: "Database configuration"
-        Session session = sessionFactory.openSession();
-
+        given:
+        Session session= sessionFactory.getCurrentSession();
+        Transaction trx =session.beginTransaction();
+        employeeDAO.setSessionFactory(sessionFactory);
         when: "Employee creating"
         Employee employeeTest = new Employee();
         employeeTest.setName("Jan");
@@ -82,18 +77,12 @@ class EmployeeDAOImplTest extends Specification {
         employeeTest.setSalaryPerHour(40);
         employeeTest.setNumberOfHoursPerMonth(80);
         employeeTest.setOvertime(10);
-        session.save(employeeTest);
-        session.beginTransaction().commit();
-        Query query = session.createQuery("SELECT e FROM employee e where e.name =:nameParam AND e.surname =:surnameParam");
-        query.setParameter("nameParam", "Jan");
-        query.setParameter("surnameParam", "Kowalski");
-        Employee employee = Mock();
-        employee = query.list().get(0);
-        session.close();
-
+        employeeDAO.saveToDataBase(employeeTest);
+        Employee employeeSearch= employeeDAO.searchEmployeeByName("Jan", "Kowalski")
+        trx.commit();
         then:"Database should contains added employee"
-        employee.name == "Jan";
-        employee.surname == "Kowalski";
+        employeeSearch.name == "Jan";
+        employeeSearch.surname == "Kowalski";
 
     }
 }

@@ -12,8 +12,18 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeDAO employeeDAO;
+
+
+    public EmployeeDAO getEmployeeDAO() {
+        return employeeDAO;
+    }
+
+    public void setEmployeeDAO(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
+    }
 
     @Transactional
     public List<Employee> getListOfEmployeeFromDataBase() {

@@ -13,8 +13,17 @@ import pl.walasiksggw.model.Employee;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
+
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Transactional
     public List<Employee> getListOfEmployeeFromDataBase() {

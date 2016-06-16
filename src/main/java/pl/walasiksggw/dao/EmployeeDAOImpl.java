@@ -6,10 +6,11 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.walasiksggw.model.Employee;
-
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {

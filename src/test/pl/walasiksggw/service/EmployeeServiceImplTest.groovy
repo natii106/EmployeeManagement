@@ -4,90 +4,60 @@ import org.hibernate.Session
 import org.hibernate.SessionFactory
 import org.hibernate.Transaction
 import org.hibernate.cfg.Configuration
-import pl.walasiksggw.dao.EmployeeDAOImpl
+import org.junit.Assert
+import org.mockito.Mockito
 import pl.walasiksggw.model.Employee
+import pl.walasiksggw.dao.EmployeeDAOImpl
 import spock.lang.Specification
 
 class EmployeeServiceImplTest extends Specification {
-    EmployeeDAOImpl employeeDAO=new EmployeeDAOImpl();
-    SessionFactory sessionFactory=new Configuration().configure("databaseConfigTests.xml").buildSessionFactory();
-    EmployeeServiceImpl employeeService= new EmployeeServiceImpl();
-    Employee employee= new Employee();
+    private EmployeeDAOImpl employeeDAO;
+    EmployeeServiceImpl employeeService;
+    Employee employee;
 
+    void setup(){
+        employee= new Employee();
+        employeeService= new EmployeeServiceImpl();
+        employeeDAO= Mock(EmployeeDAOImpl);
+        employeeService.employeeDAO=employeeDAO;
+    }
 
-    def "Get List Of Employee From DataBase "() {
+    def "Get List Of Employee From DataBase "(){
         given:
-        Session session= sessionFactory.getCurrentSession();
-        Transaction trx =session.beginTransaction();
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeService.setEmployeeDAO(employeeDAO);
-
-        when: "Get from database"
-        List<Employee> list= employeeService.getListOfEmployeeFromDataBase();
-        trx.commit();
-        then: "The database is empty"
-        list.size() == 0;
+        List<Employee> listMock=new ArrayList<>();
+        employee.name="Jan";
+        employee.surname="Kowalski";
+        listMock.add(employee);
+        employeeDAO.getListOfEmployeeFromDataBase()>> listMock;
+        when:
+        employeeService.getListOfEmployeeFromDataBase();
+        then:
+        1*employeeDAO.getListOfEmployeeFromDataBase();
     }
 
     def "Save Employee To DataBase"() {
         given:
-        Session session= sessionFactory.getCurrentSession();
-        Transaction trx =session.beginTransaction();
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeService.setEmployeeDAO(employeeDAO);
-
-        when: "Employee creating"
-        employee.setName("Jan");
-        employee.setSurname("Kowalski");
-        employee.setPosition("manager");
-        employee.setSalary(3500);
-        employee.setSalaryPerHour(40);
-        employee.setNumberOfHoursPerMonth(80);
-        employee.setOvertime(10);
+        employee.name="Jan";
+        employee.surname="Kowalski";
+        employee.position="tester";
+        employee.salary=4000;
+        employee.numberOfHoursPerMonth=160;
+        employee.overtime=0;
+        employee.salaryPerHour=25;
+        employeeDAO.saveToDataBase(employee)>> employee;
+        when:
         employeeService.saveToDataBase(employee);
-        List<Employee> list= employeeService.getListOfEmployeeFromDataBase();
-        trx.commit();
-        then: "The database should have added employee"
-        list.size() == 1;
-        list.get(0).name=="Jan";
-
+        then:
+        1*employeeDAO.saveToDataBase(employee);
     }
 
     def "Search Employee By Name"() {
         given:
-        Session session= sessionFactory.getCurrentSession();
-        Transaction trx =session.beginTransaction();
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeDAO.setSessionFactory(sessionFactory);
-        employeeService.setEmployeeDAO(employeeDAO);
-
-        when: "Employee creating"
-        employee.setName("Jan");
-        employee.setSurname("Kowalski");
-        employee.setPosition("manager");
-        employee.setSalary(3500);
-        employee.setSalaryPerHour(40);
-        employee.setNumberOfHoursPerMonth(80);
-        employee.setOvertime(10);
-        employeeService.saveToDataBase(employee);
-        Employee employeeFound= employeeService.searchEmployeeByName("Jan","Kowalski")
-        then:"Database should contains added employee"
-        employeeFound.name == "Jan";
-        employeeFound.surname == "Kowalski";
+        employeeDAO.searchEmployeeByName("name","surname")>>"Employee was found"
         when:
-        employee.setName("Jan");
-        employee.setSurname("Kowalski");
-        employee.setPosition("manager");
-        employee.setSalary(3500);
-        employee.setSalaryPerHour(40);
-        employee.setNumberOfHoursPerMonth(80);
-        employee.setOvertime(10);
-        employeeService.saveToDataBase(employee);
-        Employee employeeNotFound= employeeService.searchEmployeeByName("Jan","Kowal")
-        trx.commit();
-        then:"Database shouldn't contains this employee"
-        employeeNotFound==null;
+        employeeService.searchEmployeeByName("name","surname");
+        then:
+        1*employeeDAO.searchEmployeeByName("name", "surname");
+
     }
 }

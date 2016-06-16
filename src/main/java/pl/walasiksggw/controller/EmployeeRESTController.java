@@ -2,10 +2,7 @@ package pl.walasiksggw.controller;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import pl.walasiksggw.service.EmployeeService;
 import pl.walasiksggw.model.Employee;
 import java.util.List;
